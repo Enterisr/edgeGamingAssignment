@@ -10,7 +10,14 @@ function MeasurementForm(props) {
   const { register, handleSubmit, watch, formState, reset } = useForm();
   const { measurements, addMeasurement } = useContext(MeasurementContext);
   function onFormSubmit(data) {
+    for (let prop in data) {
+      let propNum = parseFloat(data[prop]);
+      if (!isNaN(propNum)) {
+        data[prop] = propNum;
+      }
+    }
     addMeasurement(data);
+
     reset();
   }
   //todo  - add import from excel/CSV functionallity

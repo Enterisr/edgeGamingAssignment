@@ -13,13 +13,13 @@ function MeasuresInput(props) {
   }, [MeasurementTypes]);
 
   const valueFieldType = React.useMemo(() => {
-    const selectedMeasure = props.watch("measureType");
+    const selectedMeasure = props.watch("type");
     let meausreObject;
     Object.entries(MeasurementTypes).forEach(([typeName, typeValue]) => {
       if (typeName === selectedMeasure) meausreObject = typeValue;
     });
     if (meausreObject) return meausreObject.inputType;
-  }, [props.watch("measureType")]);
+  }, [props.watch("type")]);
 
   return (
     <>
@@ -40,7 +40,7 @@ function MeasuresInput(props) {
       <StyledFieldset>
         <label>type: </label>
         <div className="selectWrap">
-          <select {...props.register("measureType")}>
+          <select {...props.register("type")}>
             {measureOptions.map((option) => (
               <option value={option.value}>{option.label}</option>
             ))}

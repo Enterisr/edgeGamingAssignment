@@ -11,7 +11,7 @@ function MeasurementList(props) {
   return (
     <li>
       <span>ms {props.measurement.time}:</span>{" "}
-      <BoldSpan>{props.measurement.measureType}</BoldSpan>{" "}
+      <BoldSpan>{props.measurement.type}</BoldSpan>{" "}
       <span>{resovleValue()}</span>
     </li>
   );
