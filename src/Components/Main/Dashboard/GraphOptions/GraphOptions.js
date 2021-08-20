@@ -1,4 +1,5 @@
 export default {
+  responsive: true,
   scales: {
     yAxes: [
       {

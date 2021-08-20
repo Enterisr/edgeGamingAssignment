@@ -21,11 +21,36 @@ export function GetMeasurementsGrades(measurements) {
   });
   return avgGrades;
 }
-export function GetTimelineSkillGrades(avgGrades, skill) {
-  const skillGrades = Object.entries(avgGrades).filter(([type, avgGrade]) => {
-    return MeasurementTypes[type].skill === skill;
+
+export function GradeMeasurements(measurements) {
+  return measurements.map((measure) => {
+    const type = MeasurementTypes[measure.type];
+    return { ...measure, grade: type.getGrade(measure) };
   });
-  console.log(skillGrades);
+}
+export function MeasurementsTimes(measurements) {
+  return measurements.map((measure) => measure.time);
+}
+export function GetAvgGradeUntilMS(measurements, ms) {
+  ms = ms ? ms : measurements[measurements.length - 1].time; //assuimng this array is ordered;
+  const relevantMeasures = measurements.filter((measure) => measure.time > ms);
+  const sumMeasure = relevantMeasures.reduce((accumulator, currentValue) => {
+    console.log(accumulator);
+    return accumulator + currentValue.grade;
+  }, 0);
+  return sumMeasure / relevantMeasures.length;
+}
+export function MapMeasurementsToSkills(measurements) {
+  const skillsKeys = Object.keys(Skills);
+  const skillMeasurements = {};
+  skillsKeys.forEach((skill) => {
+    const currentSkillMeasures = measurements.filter((measure) => {
+      const type = MeasurementTypes[measure.type];
+      return skill.toLowerCase() === type.skill.toLowerCase();
+    });
+    skillMeasurements[skill] = currentSkillMeasures;
+  });
+  return skillMeasurements;
 }
 export function GetSkillsGrades(avgGrades) {
   /*

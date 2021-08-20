@@ -4,39 +4,48 @@ import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
 import ListGraphOptions from "./GraphOptions/GraphOptions";
 import {
-  GetMeasurementsGrades,
-  MapGradesToSkill,
-  GetSkillsGrades,
+  MapMeasurementsToSkills,
+  GradeMeasurements,
+  MeasurementsTimes,
+  GetAvgGradeUntilMS,
 } from "engine/MapGradesToSkill";
 import MeasurementContext from "../MeasurementContext";
 function Dashboard() {
   const context = useContext(MeasurementContext);
-  // const {xLables,yLabels}
-  console.log(GetMeasurementsGrades(context?.measurements));
+  const skillsMeasures = React.useMemo(() => {
+    const res = MapMeasurementsToSkills(
+      GradeMeasurements(context?.measurements)
+    );
+    return res;
+  }, [context?.measurements]);
+  console.log(skillsMeasures);
   return (
     <>
       Dashboard
       <StyledDashboard>
-        <Line
-          data={{
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-            datasets: [
-              {
-                label: "# of Votes",
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                  "rgba(255, 99, 132, 0.2)",
-                  "rgba(54, 162, 235, 0.2)",
-                  "rgba(255, 206, 86, 0.2)",
-                  "rgba(75, 192, 192, 0.2)",
-                  "rgba(153, 102, 255, 0.2)",
-                  "rgba(255, 159, 64, 0.2)",
-                ],
-              },
-            ],
-          }}
-          options={ListGraphOptions}
-        />
+        {Object.entries(skillsMeasures).map(([skill, measures]) => {
+          const eventTimes = MeasurementsTimes(measures);
+          const dataValues = eventTimes.map((eventTime) =>
+            GetAvgGradeUntilMS(measures, eventTime)
+          );
+          return (
+            <div>
+              <Line
+                data={{
+                  labels: eventTimes,
+                  datasets: [
+                    {
+                      label: skill,
+                      data: dataValues,
+                      backgroundColor: ["orange"],
+                    },
+                  ],
+                }}
+                options={ListGraphOptions}
+              />{" "}
+            </div>
+          );
+        })}
       </StyledDashboard>
     </>
   );
@@ -47,5 +56,14 @@ const StyledDashboard = styled.div`
   background: var(--accent-color);
   padding: 3rem;
   border-radius: 1rem;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-height: 70vh;
+  overflow: auto;
   color: white;
+  & > div {
+    margin: auto;
+    width: 50%;
+  }
 `;
