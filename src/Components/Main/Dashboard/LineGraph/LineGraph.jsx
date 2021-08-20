@@ -27,9 +27,8 @@ function LineGraph(props) {
         {" "}
         <h2>
           {props.skill}
-          <div>
-            <b>{GetSkillGrade(props.measures).toFixed(2)}</b>
-          </div>
+          <br />
+          Score:<b>{GetSkillGrade(props.measures).toFixed(2)}</b>
         </h2>
         <Line
           data={{
