@@ -5,8 +5,12 @@ import MeasurementContext from "./MeasurementContext";
 import MeasurementForm from "./MeasurementForm/MeasurementForm";
 import Dashboard from "./Dashboard/Dashboard";
 import Toggle from "../CommonComponents/Toggle";
+import SnackbarProvider from "react-simple-snackbar";
+
+import DefaultMeasurements from "DefaultMeasurements";
 function Main() {
-  const [measurements, setMeasurements] = useState([]);
+  //const [measurements, setMeasurements] = useState();
+  const [measurements, setMeasurements] = useState(DefaultMeasurements);
   const [isInputMode, setIsInputMode] = useState(true);
   function toggleInputMode() {
     setIsInputMode(!isInputMode);
@@ -32,15 +36,17 @@ function Main() {
     }
   }
   return (
-    <StyledMain>
-      <MeasurementContext.Provider value={{ measurements, addMeasurement }}>
-        <ToggleWrap>
-          <label>{isInputMode ? "Input Mode" : "View Mode"}</label>
-          <Toggle isChecked={isInputMode} onChange={toggleInputMode} />
-        </ToggleWrap>
-        {isInputMode ? <MeasurementForm /> : <Dashboard />}
-      </MeasurementContext.Provider>
-    </StyledMain>
+    <SnackbarProvider>
+      <StyledMain>
+        <MeasurementContext.Provider value={{ measurements, addMeasurement }}>
+          <ToggleWrap>
+            <Toggle isChecked={isInputMode} onChange={toggleInputMode} />{" "}
+            <label>{isInputMode ? "Input Mode" : "View Mode"}</label>
+          </ToggleWrap>
+          {isInputMode ? <MeasurementForm /> : <Dashboard />}
+        </MeasurementContext.Provider>
+      </StyledMain>{" "}
+    </SnackbarProvider>
   );
 }
 Main.propTypes = {};
@@ -57,6 +63,6 @@ const ToggleWrap = styled.div`
   text-align: center;
   align-items: center;
   & label {
-    margin-right: var(--margin-unit);
+    margin-left: var(--margin-unit);
   }
 `;

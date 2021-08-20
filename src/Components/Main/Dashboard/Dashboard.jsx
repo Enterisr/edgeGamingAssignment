@@ -1,15 +1,9 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { Line } from "react-chartjs-2";
-import ListGraphOptions from "./GraphOptions/GraphOptions";
-import {
-  MapMeasurementsToSkills,
-  GradeMeasurements,
-  MeasurementsTimes,
-  GetAvgGradeUntilMS,
-} from "engine/MapGradesToSkill";
+import { MapMeasurementsToSkills, GradeMeasurements } from "engine/Calculator";
 import MeasurementContext from "../MeasurementContext";
+import LineGraph from "./LineGraph/LineGraph";
 function Dashboard() {
   const context = useContext(MeasurementContext);
   const skillsMeasures = React.useMemo(() => {
@@ -21,30 +15,9 @@ function Dashboard() {
   console.log(skillsMeasures);
   return (
     <>
-      Dashboard
       <StyledDashboard>
         {Object.entries(skillsMeasures).map(([skill, measures]) => {
-          const eventTimes = MeasurementsTimes(measures);
-          const dataValues = eventTimes.map((eventTime) =>
-            GetAvgGradeUntilMS(measures, eventTime)
-          );
-          return (
-            <div>
-              <Line
-                data={{
-                  labels: eventTimes,
-                  datasets: [
-                    {
-                      label: skill,
-                      data: dataValues,
-                      backgroundColor: ["orange"],
-                    },
-                  ],
-                }}
-                options={ListGraphOptions}
-              />{" "}
-            </div>
-          );
+          return <LineGraph skill={skill} measures={measures} />;
         })}
       </StyledDashboard>
     </>
@@ -53,17 +26,20 @@ function Dashboard() {
 Dashboard.propTypes = {};
 export default Dashboard;
 const StyledDashboard = styled.div`
-  background: var(--accent-color);
+  background: var(--accent-color-half);
   padding: 3rem;
+  box-shadow: 0px 0px 6px 0px black;
   border-radius: 1rem;
   display: flex;
   flex-direction: row;
   width: 100%;
   max-height: 70vh;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-top: var(--margin-unit);
+  flex-wrap: nowrap;
   color: white;
-  & > div {
-    margin: auto;
-    width: 50%;
+  @media (max-width: 760px) {
+    flex-direction: column;
   }
 `;

@@ -12,6 +12,8 @@ function App() {
         <a target="_blank" href="https://github.com/Enterisr/">
           @DrunkTolstoy
         </a>
+        <br />
+        @CC BY-NC-SA. Please do not use in any commercial manner
       </footer>
     </div>
   );

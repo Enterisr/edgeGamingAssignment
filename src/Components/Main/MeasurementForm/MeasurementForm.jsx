@@ -5,10 +5,12 @@ import { useForm } from "react-hook-form";
 import MeasuresInput from "./MeasuresInput/MeasureInput";
 import MeasurementListEntry from "./MeasurementListEntry/MeasurementListEntry";
 import MeasurementContext from "../MeasurementContext";
+import { useSnackbar } from "react-simple-snackbar";
 import { v4 as uuidv4 } from "uuid";
 function MeasurementForm(props) {
   const { register, handleSubmit, watch, formState, reset } = useForm();
   const { measurements, addMeasurement } = useContext(MeasurementContext);
+  const [openSnackbar, closeSnackbar] = useSnackbar();
   function onFormSubmit(data) {
     for (let prop in data) {
       let propNum = parseFloat(data[prop]);
@@ -17,7 +19,7 @@ function MeasurementForm(props) {
       }
     }
     addMeasurement(data);
-
+    openSnackbar("data added 🚀");
     reset();
   }
   //todo  - add import from excel/CSV functionallity

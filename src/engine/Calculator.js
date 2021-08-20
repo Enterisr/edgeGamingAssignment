@@ -1,6 +1,6 @@
 import { Skills, MeasurementTypes } from "./MeasurementTypes";
 
-export function GetMeasurementsGrades(measurements) {
+function GetMeasurementsGrades(measurements) {
   const accGrades = {};
   const avgGrades = {};
   measurements.forEach((measure) => {
@@ -21,11 +21,18 @@ export function GetMeasurementsGrades(measurements) {
   });
   return avgGrades;
 }
-
+export function GetSkillGrade(measurements) {
+  const measurementsAvgs = GetMeasurementsGrades(measurements);
+  let sum = 0;
+  Object.entries(measurementsAvgs).forEach(([type, avg]) => {
+    sum += MeasurementTypes[type].weight * avg;
+  });
+  return sum;
+}
 export function GradeMeasurements(measurements) {
   return measurements.map((measure) => {
-    const type = MeasurementTypes[measure.type];
-    return { ...measure, grade: type.getGrade(measure) };
+    const type = MeasurementTypes[measure?.type];
+    if (type) return { ...measure, grade: type.getGrade(measure) };
   });
 }
 export function MeasurementsTimes(measurements) {
@@ -52,13 +59,14 @@ export function MapMeasurementsToSkills(measurements) {
   });
   return skillMeasurements;
 }
-export function GetSkillsGrades(avgGrades) {
+/*
+export function GetSkillGrades(measurements) {
   /*
     Do this if you want strict one truth policy
   const skills = new Set();
   Object.keys(avgGrades).forEach((measureType) =>
     skills.add(MeasurementTypes[measureType].skill)
-  );*/
+  );
   const skillsMapping = new Map();
   Skills.forEach((skill) => {
     let skillAcc = 0;
@@ -72,3 +80,4 @@ export function GetSkillsGrades(avgGrades) {
   });
   return skillsMapping;
 }
+*/

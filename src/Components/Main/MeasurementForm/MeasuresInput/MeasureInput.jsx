@@ -33,7 +33,7 @@ function MeasuresInput(props) {
             })}
             type="number"
           />
-          ms
+          <span>ms</span>
         </span>
         {props.errors.time && <ErrorSpan> needs to be a number</ErrorSpan>}
       </StyledFieldset>
@@ -110,5 +110,6 @@ const Input = styled.input.attrs({
   color: white;
   padding: 0.4rem;
   border: none;
+  margin-right: 0.3em;
 `;
 export default MeasuresInput;
