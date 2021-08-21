@@ -20,6 +20,6 @@ To run:
     npm i
     npm start
 
-Visit the live demo: https://611fed0a9d613474a23fd019--edgegaming-grapher.netlify.app/
+Visit the live demo: https://edgegaming-grapher.netlify.app
 
 Have an awesome week!
