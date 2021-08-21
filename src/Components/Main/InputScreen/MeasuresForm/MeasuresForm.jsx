@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Toggle from "../../../CommonComponents/Toggle";
 import { MeasurementTypes } from "engine/MeasurementTypes";
 
-function MeasuresInput(props) {
+function MeasuresForm(props) {
   const measureOptions = React.useMemo(() => {
     return Object.entries(MeasurementTypes).map(([typeName, type]) => {
       //key is typename, it serves as our ID.
@@ -72,7 +72,7 @@ function MeasuresInput(props) {
     </>
   );
 }
-MeasuresInput.propTypes = {
+MeasuresForm.propTypes = {
   measurement: PropTypes.object,
   register: PropTypes.func,
   errors: PropTypes.object,
@@ -101,6 +101,14 @@ const StyledFieldset = styled.fieldset`
   & label {
     margin-right: 1em;
   }
+  & input[type="checkbox"] {
+    transform: scale(1.5);
+    display: block;
+    position: absolute;
+    margin-right: -5em;
+    cursor: pointer;
+    margin-top: 0.2em;
+  }
 `;
 const Input = styled.input.attrs({
   type: "number",
@@ -112,4 +120,4 @@ const Input = styled.input.attrs({
   border: none;
   margin-right: 0.3em;
 `;
-export default MeasuresInput;
+export default MeasuresForm;

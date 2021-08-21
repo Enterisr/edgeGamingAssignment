@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import MeasurementContext from "./MeasurementContext";
-import MeasurementForm from "./MeasurementForm/MeasurementForm";
+import MeasurementForm from "./InputScreen/InputScreen";
 import Dashboard from "./Dashboard/Dashboard";
 import Toggle from "../CommonComponents/Toggle";
 import SnackbarProvider from "react-simple-snackbar";

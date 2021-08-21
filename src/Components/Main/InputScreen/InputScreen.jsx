@@ -2,13 +2,15 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
-import MeasuresInput from "./MeasuresInput/MeasureInput";
+import MeasuresForm from "./MeasuresForm/MeasuresForm";
 import MeasurementListEntry from "./MeasurementListEntry/MeasurementListEntry";
 import MeasurementContext from "../MeasurementContext";
 import { useSnackbar } from "react-simple-snackbar";
 import { v4 as uuidv4 } from "uuid";
-function MeasurementForm(props) {
-  const { register, handleSubmit, watch, formState, reset } = useForm();
+function InputScreen(props) {
+  const { register, handleSubmit, watch, formState, reset } = useForm({
+    defaultValues: { type: "Move" },
+  });
   const { measurements, addMeasurement } = useContext(MeasurementContext);
   const [openSnackbar, closeSnackbar] = useSnackbar();
   function onFormSubmit(data) {
@@ -33,7 +35,7 @@ function MeasurementForm(props) {
       </StyledMeasurementsList>
       <StyledTitle>Enter your measurements </StyledTitle>
       <StyledForm onSubmit={handleSubmit(onFormSubmit)}>
-        <MeasuresInput
+        <MeasuresForm
           watch={watch}
           errors={formState.errors}
           register={register}
@@ -43,11 +45,11 @@ function MeasurementForm(props) {
     </>
   );
 }
-MeasurementForm.propTypes = {
+InputScreen.propTypes = {
   addMeasurement: PropTypes.func,
   measurements: PropTypes.array,
 };
-export default MeasurementForm;
+export default InputScreen;
 const Button = styled.button`
   color: black;
   width: 5rem;
